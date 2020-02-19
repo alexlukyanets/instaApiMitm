@@ -4,6 +4,19 @@ from get_work.SearchDataAccount import SearchDataAccount
 from get_work.AccountInfo import AccountInfo
 import random
 import time
+import re
+
+
+def verifyAccount(account):
+    data = AccountInfo.get_from_json()
+    print(data)
+
+    if data != False:
+        if account == data['username']:
+            print(f'It`s need {account}')
+            return True
+        else:
+            return False
 
 def press_like(account):
     time.sleep(random.uniform(5, 7))
@@ -88,16 +101,42 @@ def follow(counter):
                     time.sleep(random.uniform(30, 60))
 
 
+def getAccountFromCsv():
+    unfollow = get_read_csv('get_work/data/unfollow.csv')
+    accounts = []
+    for strings in unfollow:
+        account = re.split(r',', strings)
+        accounts.append(account[2])
 
+    return accounts
 
+def get_read_csv(filename):
+    with open(filename, encoding='utf-8') as f:
+        work = f.read()
+    work = work.split('\n')
+    return work
+
+def unfollow():
+    # SmartCsv.createUnfollowList()
+    accounts = getAccountFromCsv()
+
+    for account in accounts:
+        print(account)
+        SearchAccount.search_and_open_account(account)
+
+        itsneed = verifyAccount(account)
+
+        if itsneed:
+            print(SearchDataAccount.unfollow())
+        else:
+            print(f'Next account becouse it`s false {account}')
 
 def main():
+    unfollow()
     #smart_like(30)
-    follow(25)
-    time.sleep(random.uniform(150, 200))
-    follow(25)
-    time.sleep(random.uniform(150, 200))
-    follow(25)
+    #follow(25)
+    #time.sleep(random.uniform(150, 200))
+    #follow(25)
 
     """time.sleep(random.uniform(150, 200))
     follow(5)

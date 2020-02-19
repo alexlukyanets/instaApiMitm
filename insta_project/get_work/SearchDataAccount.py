@@ -42,9 +42,6 @@ class SearchDataAccount():
             else:
                 return False
 
-        if friendship != None:
-            DbWorking.follow_to_db(account)
-            return False
         #print(f"friendship + {friendship}")
 
 
@@ -55,9 +52,21 @@ class SearchDataAccount():
         #print(searcher)
 
 
-    @staticmethod
-    def unfollow():
-        search_and_click_point('image/unfollow.png', False, False)
+    @classmethod
+    def unfollow(cls):
+        friendship = pyautogui.locateOnScreen('image/unfollow.png')
+
+        if friendship != None:
+            # print(f"follow + {follow}")
+            time.sleep(random.uniform(1, 2))
+            cls.search_and_click_point('image/unfollow.png', False, False)
+            time.sleep(random.uniform(1, 2))
+
+            folllow = pyautogui.locateOnScreen('image/follow.png')
+            if folllow != None:
+                return True
+            else:
+                return False
 
     @classmethod
     def findlike_and_get_like(cls, makelike, username):

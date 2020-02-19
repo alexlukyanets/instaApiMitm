@@ -3,7 +3,7 @@ from SearchDataAccount import SearchDataAccount
 from AccountInfo import AccountInfo
 from SmartCsv import SmartCsv
 import time
-import os
+import re
 import pyautogui
 import pyautogui.tweens
 import random
@@ -38,7 +38,7 @@ def get_my_account():
 
 
 def true_main():
-    work = get_read_csv()
+    work = get_read_csv('data/work.csv')
 
     for item in work:
         print('Start ' + item)
@@ -70,17 +70,19 @@ def get_followers_get_friendship(number_of, file, old_csv):
 
     print(f'All {file} done')
 
-def get_read_csv():
-    with open('data/work.csv') as f:
+def get_read_csv(filename):
+    with open(filename, encoding='utf-8') as f:
         work = f.read()
     work = work.split('\n')
     return work
+
+
 
 def main():
     #true_main()
     #get_my_account()
     #SmartCsv.create_my_common()
-    SmartCsv.create_work_and_my_common()
+    #SmartCsv.create_work_and_my_common()
 
 
 main()
