@@ -2,6 +2,7 @@ from get_work.DbWorking import DbWorking
 from get_work.SearchAccount import SearchAccount
 from get_work.SearchDataAccount import SearchDataAccount
 from get_work.AccountInfo import AccountInfo
+from get_work.SmartCsv import SmartCsv
 import random
 import time
 import re
@@ -103,6 +104,7 @@ def follow(counter):
 
 def getAccountFromCsv():
     unfollow = get_read_csv('get_work/data/unfollow.csv')
+    print(unfollow)
     accounts = []
     for strings in unfollow:
         account = re.split(r',', strings)
@@ -117,17 +119,26 @@ def get_read_csv(filename):
     return work
 
 def unfollow():
-    # SmartCsv.createUnfollowList()
+    #SmartCsv.createUnfollowList()
+    time.sleep(3)
     accounts = getAccountFromCsv()
 
-    for account in accounts:
+
+    for account in accounts[75:300]:
+        print()
+        time.sleep(random.uniform(3,5))
         print(account)
         SearchAccount.search_and_open_account(account)
 
         itsneed = verifyAccount(account)
 
         if itsneed:
-            print(SearchDataAccount.unfollow())
+
+            SearchDataAccount.unfollow()
+            time.sleep(random.uniform(30, 60))
+            SearchDataAccount.unfollowElse()
+
+
         else:
             print(f'Next account becouse it`s false {account}')
 

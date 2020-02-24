@@ -25,7 +25,7 @@ class SmartCsv():
 
     @classmethod
     def createUnfollowList(cls):
-        filename = 'data/unfollow.csv'
+        filename = 'get_work/data/unfollow.csv'
         common = cls.getUnfollow()
         cls.convert_write_csv(common, filename)
         print('create_csv')
@@ -114,8 +114,8 @@ class SmartCsv():
 
     @classmethod
     def getUnfollow(cls):
-        followers = cls.read_file("data/followers.csv")
-        friendship = cls.read_file("data/friendship.csv")
+        followers = cls.read_file("get_work/data/followers.csv")
+        friendship = cls.read_file("get_work/data/friendship.csv")
 
         # Разность(Множество из common не входящее в my_common. Все подписчики на которые не подписан аккунт
         result = list(set(friendship) - set(followers))

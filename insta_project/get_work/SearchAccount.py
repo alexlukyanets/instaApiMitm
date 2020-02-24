@@ -18,6 +18,7 @@ class SearchAccount():
         time.sleep(random.uniform(0, 1))
         cls.click_search_icon_two()
         time.sleep(random.uniform(0, 1))
+        print(f'Write {account}')
         pyautogui.write(account)
         time.sleep(random.uniform(5, 7))
         cls.best_find_need_account(account)

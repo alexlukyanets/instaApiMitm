@@ -51,6 +51,16 @@ class SearchDataAccount():
         #searcher = pyautogui.locateOnScreen('friendship.png', confidence=0.9)
         #print(searcher)
 
+    @classmethod
+    def unfollowElse(cls):
+        unfollow = pyautogui.locateOnScreen('image/accept_unfollow.png')
+
+        if unfollow != None:
+            time.sleep(random.uniform(1, 2))
+            cls.search_and_click_point('image/accept_unfollow.png', False, False)
+            time.sleep(random.uniform(1, 2))
+
+
 
     @classmethod
     def unfollow(cls):
@@ -138,9 +148,10 @@ class SearchDataAccount():
 
     @classmethod
     def get_followers(cls):
-        folowers = pyautogui.locateOnScreen('image/folowers.png')
+        folowers = pyautogui.locateOnScreen('image/folowers.png', confidence=0.9)
         while folowers == None:
-            folowers = pyautogui.locateOnScreen('image/folowers.png')
+            folowers = pyautogui.locateOnScreen('image/folowers.png', confidence=0.9)
+            print('finding')
             time.sleep(0.3)
         pyautogui.click(folowers.left + 30, folowers.top - 10)
         time.sleep(2)
@@ -151,9 +162,9 @@ class SearchDataAccount():
 
     @classmethod
     def get_friendship(cls):
-        friendship = pyautogui.locateOnScreen('image/friendship.png')
+        friendship = pyautogui.locateOnScreen('image/friendship.png', confidence=0.9)
         while friendship == None:
-            friendship = pyautogui.locateOnScreen('image/friendship.png')
+            friendship = pyautogui.locateOnScreen('image/friendship.png', confidence=0.9)
             time.sleep(0.3)
         pyautogui.click(friendship.left + 30, friendship.top - 10)
         time.sleep(2)

@@ -14,8 +14,8 @@ def get_my_account():
         old_csv = sumline(followers)
     except FileNotFoundError:
         old_csv = 0
-
-
+    print('Start')
+    time.sleep(4)
     SearchDataAccount.get_followers()
     number_of_followers = AccountInfo.get_number_of_followers()
     print(number_of_followers)
@@ -80,10 +80,9 @@ def get_read_csv(filename):
 
 def main():
     #true_main()
-    #get_my_account()
+    get_my_account()
     #SmartCsv.create_my_common()
     #SmartCsv.create_work_and_my_common()
-
 
 main()
 
