@@ -6,8 +6,8 @@ import datetime
 import random
 from dateutil.parser import parse
 
-#db = PostgresqlDatabase(database='instagram_db', user='postgres', password='wise2012A', host='localhost')
-db = PostgresqlDatabase(database='instagram_db_pasha', user='postgres', password='wise2012A', host='localhost')
+db = PostgresqlDatabase(database='instagram_db', user='postgres', password='wise2012A', host='localhost')
+#db = PostgresqlDatabase(database='instagram_db_pasha', user='postgres', password='wise2012A', host='localhost')
 
 class UnfollowKJob(Model):
     pk = CharField()

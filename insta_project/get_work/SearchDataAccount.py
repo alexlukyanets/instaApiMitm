@@ -2,8 +2,8 @@ import pyautogui
 import pyautogui.tweens
 import random
 import time
-#from get_work.DbWorking import DbWorking
-from DbWorking import DbWorking
+from get_work.DbWorking import DbWorking
+#from DbWorking import DbWorking
 class SearchDataAccount():
 
     @classmethod

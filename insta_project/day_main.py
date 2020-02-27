@@ -6,6 +6,7 @@ from get_work.SmartCsv import SmartCsv
 import random
 import time
 import re
+import datetime
 
 def verifyBlackList(data):
     try:
@@ -131,6 +132,7 @@ def unfollow(counter):
     for account in accounts[0:counter]:
         print()
         time.sleep(random.uniform(3,5))
+        print(datetime.datetime.now())
         print(account)
         SearchAccount.search_and_open_account(account)
         time.sleep(random.uniform(1,3))
