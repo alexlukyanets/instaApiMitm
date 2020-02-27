@@ -18,7 +18,8 @@ def write_csv_friendship(data):
                  'contact_phone_number',
                  'category',
                  'is_business',
-                 'blacklist']
+                 'blacklist',
+                 'message']
 
         writer = csv.DictWriter(file, fieldnames=order)
         writer.writerow(data)
@@ -51,5 +52,6 @@ for i in read_to_list:
     i.update({'category': None})
     i.update({'is_business': None})
     i.update({'blacklist': None})
+    i.update({'message': None})
 
     write_csv_friendship(i)

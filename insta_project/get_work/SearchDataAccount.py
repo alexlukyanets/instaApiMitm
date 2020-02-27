@@ -2,9 +2,8 @@ import pyautogui
 import pyautogui.tweens
 import random
 import time
-from get_work.DbWorking import DbWorking
-
-#from DbWorking import DbWorking
+#from get_work.DbWorking import DbWorking
+from DbWorking import DbWorking
 class SearchDataAccount():
 
     @classmethod
@@ -34,9 +33,9 @@ class SearchDataAccount():
             #print(f"follow + {follow}")
             time.sleep(random.uniform(1, 2))
             cls.search_and_click_point('image/follow.png', False, False)
-            time.sleep(random.uniform(1, 2))
+            time.sleep(random.uniform(3, 5))
 
-            friendship = pyautogui.locateOnScreen('image/unfollow.png')
+            friendship = pyautogui.locateOnScreen('image/unfollow.png', confidence=0.9)
             if friendship != None:
                 return True
             else:
@@ -63,17 +62,28 @@ class SearchDataAccount():
 
 
     @classmethod
-    def unfollow(cls):
+    def unfollow(cls, account):
         friendship = pyautogui.locateOnScreen('image/unfollow.png')
 
         if friendship != None:
             # print(f"follow + {follow}")
             time.sleep(random.uniform(1, 2))
             cls.search_and_click_point('image/unfollow.png', False, False)
-            time.sleep(random.uniform(1, 2))
+            time.sleep(random.uniform(1, 3))
+            block = pyautogui.locateOnScreen('image/blockAfterUnfollow.png')
+            if block != None:
+                pyautogui.click(150,150)
 
-            folllow = pyautogui.locateOnScreen('image/follow.png')
+            accept_unfollow = pyautogui.locateOnScreen('image/accept_unfollow.png', confidence=0.9)
+            if accept_unfollow != None:
+                cls.search_and_click_point('image/accept_unfollow.png', False, False)
+
+            time.sleep(random.uniform(1, 3))
+            folllow = pyautogui.locateOnScreen('image/follow.png', confidence=0.9)
+
             if folllow != None:
+                DbWorking.unfollow_to_db(account)
+                print('Saved in DB')
                 return True
             else:
                 return False
@@ -138,19 +148,15 @@ class SearchDataAccount():
 
             return True
 
-
-
         else:
             print('I have n`t find like')
             return False
 
-
-
     @classmethod
     def get_followers(cls):
-        folowers = pyautogui.locateOnScreen('image/folowers.png', confidence=0.9)
+        folowers = pyautogui.locateOnScreen('image/folowers.png')
         while folowers == None:
-            folowers = pyautogui.locateOnScreen('image/folowers.png', confidence=0.9)
+            folowers = pyautogui.locateOnScreen('image/folowers.png')
             print('finding')
             time.sleep(0.3)
         pyautogui.click(folowers.left + 30, folowers.top - 10)
@@ -162,12 +168,14 @@ class SearchDataAccount():
 
     @classmethod
     def get_friendship(cls):
-        friendship = pyautogui.locateOnScreen('image/friendship.png', confidence=0.9)
+        friendship = pyautogui.locateOnScreen('image/friendship.png')
         while friendship == None:
-            friendship = pyautogui.locateOnScreen('image/friendship.png', confidence=0.9)
+            friendship = pyautogui.locateOnScreen('image/friendship.png')
             time.sleep(0.3)
         pyautogui.click(friendship.left + 30, friendship.top - 10)
         time.sleep(2)
 
 #SearchDataAccount.like(1,1, "filip_gerasim")
 #print(SearchDataAccount.follow())
+time.sleep(2)
+SearchDataAccount.unfollow('kushnarenkosofia')

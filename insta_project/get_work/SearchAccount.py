@@ -23,7 +23,7 @@ class SearchAccount():
         time.sleep(random.uniform(5, 7))
         cls.best_find_need_account(account)
         time.sleep(random.uniform(0, 1))
-        exisying = pyautogui.locateOnScreen('get_work/image/no_exist_user.png', confidence=0.9)
+        exisying = pyautogui.locateOnScreen('image/no_exist_user.png', confidence=0.9)
         if exisying == None:
             return True
         else:

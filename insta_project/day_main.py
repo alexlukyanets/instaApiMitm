@@ -7,10 +7,17 @@ import random
 import time
 import re
 
+def verifyBlackList(data):
+    try:
+        if data['following_count'] / data['follower_count'] > 0.1:
+            return False
+        else:
+            return True
+    except:
+        return True
 
-def verifyAccount(account):
-    data = AccountInfo.get_from_json()
-    print(data)
+
+def verifyAccount(account, data):
 
     if data != False:
         if account == data['username']:
@@ -28,8 +35,7 @@ def press_like(account):
         if account == data['username']:
             print(f'It`s need {account}')
 
-        k = data['following_count'] / data['follower_count']
-        if k > 0.1:
+        if verifyBlackList(data) == False:
             DbWorking.update_db(data)
 
             if data['media_count'] > 0:
@@ -38,7 +44,7 @@ def press_like(account):
                 if like == True:
                     time.sleep(random.uniform(30, 60))
         else:
-            print(f'Save to BL becouse {k}')
+            print(f'Save to BL')
             DbWorking.to_black_list(account)
     else:
         print(f'This cant like {account}')
@@ -95,7 +101,6 @@ def follow(counter):
 
                 result = SearchDataAccount.follow(account[0])
 
-
                 if result == True:
                     DbWorking.follow_to_db(account[0])
                     print(f" I follow {account[0]}")
@@ -118,35 +123,63 @@ def get_read_csv(filename):
     work = work.split('\n')
     return work
 
-def unfollow():
-    #SmartCsv.createUnfollowList()
-    time.sleep(3)
-    accounts = getAccountFromCsv()
+def unfollow(counter):
+    accounts = DbWorking.get_unfollow_accounts()
 
+    random.shuffle(accounts)
 
-    for account in accounts[75:300]:
+    for account in accounts[0:counter]:
         print()
         time.sleep(random.uniform(3,5))
         print(account)
         SearchAccount.search_and_open_account(account)
+        time.sleep(random.uniform(1,3))
+        data = AccountInfo.get_from_json()
+        print(data)
 
-        itsneed = verifyAccount(account)
+        itsneed = verifyAccount(account, data)
 
         if itsneed:
+            DbWorking.update_data_unfollow_db(data)
 
-            SearchDataAccount.unfollow()
-            time.sleep(random.uniform(30, 60))
-            SearchDataAccount.unfollowElse()
+
+            if verifyBlackList(data) == True:
+                print('Welcome DB')
+                DbWorking.to_black_list(account)
+
+            SearchDataAccount.unfollow(account)
+            time.sleep(random.uniform(45, 70))
+            #SearchDataAccount.unfollowElse()
 
 
         else:
             print(f'Next account becouse it`s false {account}')
 
 def main():
-    unfollow()
-    #smart_like(30)
-    #follow(25)
+
+    unfollow(50)
+    time.sleep(random.uniform(200, 300))
+    print('Part One')
+    smart_like(30)
+    time.sleep(random.uniform(150, 200))
+    unfollow(50)
+    time.sleep(random.uniform(150, 200))
+    print('Part Two')
+    smart_like(30)
+    time.sleep(random.uniform(150, 200))
+    unfollow(50)
+    time.sleep(random.uniform(150, 200))
+    print('Part Three')
+    smart_like(30)
+    time.sleep(random.uniform(150, 200))
+    unfollow(50)
+    time.sleep(random.uniform(150, 200))
+    print('Part Four')
+    follow(10)
+    #unfollow(100)
     #time.sleep(random.uniform(150, 200))
+    #follow(1)
+
     #follow(25)
 
     """time.sleep(random.uniform(150, 200))

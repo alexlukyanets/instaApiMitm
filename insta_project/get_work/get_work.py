@@ -8,33 +8,24 @@ import pyautogui
 import pyautogui.tweens
 import random
 
-def get_my_account():
-    followers = 'data/followers.csv'
-    try:
-        old_csv = sumline(followers)
-    except FileNotFoundError:
-        old_csv = 0
-    print('Start')
-    time.sleep(4)
-    SearchDataAccount.get_followers()
-    number_of_followers = AccountInfo.get_number_of_followers()
-    print(number_of_followers)
-    get_followers_get_friendship(number_of_followers, followers, old_csv)
 
-    print()
-    pyautogui.click(500, 150)
 
+def get_my_account_friendship():
     friendship = 'data/friendship.csv'
-    try:
-        old_csv = sumline(friendship)
-    except FileNotFoundError:
-        old_csv = 0
-
-
+    old_csv = first_open(friendship)
     SearchDataAccount.get_friendship()
+    time.sleep(random.uniform(1,3))
     number_of_friendship = AccountInfo.get_number_of_friendship()
     get_followers_get_friendship(number_of_friendship, friendship, old_csv)
-    print(number_of_friendship)
+
+def get_my_account_followers():
+    followers = 'data/followers.csv'
+    old_csv = first_open(followers)
+    SearchDataAccount.get_followers()
+    time.sleep(random.uniform(1, 3))
+    number_of_followers = AccountInfo.get_number_of_followers()
+    get_followers_get_friendship(number_of_followers, followers, old_csv)
+
 
 
 def true_main():
@@ -43,7 +34,10 @@ def true_main():
     for item in work:
         print('Start ' + item)
         SearchAccount.search_and_open_account(item)
-        get_my_account()
+        get_my_account_friendship()
+        print()
+        pyautogui.click(500, 150)
+        get_my_account_followers()
         #os.remove('data/friendship.csv')
         #os.remove('data/followers.csv')
     SmartCsv.create_work_csv()
@@ -51,6 +45,12 @@ def true_main():
 def sumline(filename):
     with open(filename, encoding='utf-8') as f:
         return sum(1 for line in f)
+
+def first_open(file):
+    try:
+        return sumline(file)
+    except FileNotFoundError:
+        return 0
 
 def get_followers_get_friendship(number_of, file, old_csv):
     time.sleep(random.uniform(0, 2))
@@ -81,8 +81,15 @@ def get_read_csv(filename):
 def main():
     #true_main()
     get_my_account()
-    #SmartCsv.create_my_common()
-    #SmartCsv.create_work_and_my_common()
+    SmartCsv.create_my_common()
+    SmartCsv.create_work_and_my_common()
 
-main()
+def get_my_account():
+    get_my_account_friendship()
+    print()
+    pyautogui.click(500, 150)
+    get_my_account_followers()
+
+if __name__ == '__main__':
+    main()
 
